@@ -16,6 +16,7 @@ class Movie extends React.Component {
           src={`http://image.tmdb.org/t/p/w185/${this.props.movie.poster_path}`}
         />
         <h1>{this.props.movie.original_title}</h1>
+        <p>{this.props.movie.overview}</p>
       </div>
     );
   }

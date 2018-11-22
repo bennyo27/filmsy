@@ -9,15 +9,18 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <ul>
+        <ul className="navbar">
           <li>
             <NavLink exact to="/" className="button">
-              LOGO
+              <img
+                className="logo"
+                src="https://i.gyazo.com/ddfc5a4cd0297ac5474b74a93e6b458e.png"
+              />
             </NavLink>
           </li>
           <li>
             <NavLink to="/login" className="button">
-              login
+              Login
             </NavLink>
           </li>
         </ul>

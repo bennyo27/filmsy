@@ -13,7 +13,7 @@ const initialState = {
   fetchingMovies: false,
   moviesFetched: false,
   fetchingMovie: false,
-  moviesFetched: false,
+  movieFetched: false,
   error: ""
 };
 

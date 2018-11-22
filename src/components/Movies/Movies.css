@@ -1,0 +1,14 @@
+.movieDisplay {
+  width: 1800px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.moviesDisplay {
+  width: 350px;
+}
+
+a {
+  text-decoration: none;
+}

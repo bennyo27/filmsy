@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { getMovies } from "../../store/actions";
 import { Link } from "react-router-dom";
+import "./Movies.css";
 
 class Movies extends React.Component {
   // retrieve movies

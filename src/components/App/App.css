@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
 }
 
 .App-logo {
@@ -29,4 +32,19 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App ul {
+  list-style-type: none;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f6ad26;
+  width: 100%;
+}
+
+.navbar img {
+  height: 60px;
 }
