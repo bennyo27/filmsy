@@ -1,5 +1,6 @@
 .banner {
   height: 800px;
+  display: flex;
   justify-content: center;
   background-image: linear-gradient(
       rgb(252, 241, 215, 0.5),
@@ -33,10 +34,60 @@
   color: #282b28;
 }
 
+.search .close-btn {
+  position: absolute;
+  top: 1.5px;
+  right: 3px;
+  cursor: pointer;
+  color: #fc913a;
+  background: #fff;
+  border: 0px;
+  width: 120px;
+  height: 55px;
+  border-left: 2px solid #fc913a;
+  border-radius: 0 50px 50px 0;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
 .featured {
   background-color: #d36135;
 }
 
 .featured h1 {
   color: white;
+}
+
+.results {
+  width: 500px;
+  display: inline-block;
+  margin-top: 428px;
+}
+
+.result-display {
+  display: flex;
+  border: 1px solid grey;
+  background-color: #fff;
+  height: 80px;
+  padding-top: 10px;
+  transition: 0.2s;
+}
+
+.result-display:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.result-poster {
+  height: 100px;
+  width: 100px;
+}
+
+.result-title {
+  color: black;
+  font-size: 0.8em;
+}
+
+.result-title a {
+  text-decoration: none;
 }
