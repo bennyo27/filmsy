@@ -8,25 +8,29 @@ import { withRouter } from "react-router";
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <ul className="navbar">
-          <li>
-            <NavLink exact to="/" className="button">
-              <img
-                className="logo"
-                src="https://i.gyazo.com/ddfc5a4cd0297ac5474b74a93e6b458e.png"
-              />
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/login" className="button">
-              Login
-            </NavLink>
-          </li>
-        </ul>
-        <div className="main-content">
-          <Route exact path="/" component={Home} />
-          <Route path="/:id" component={Movie} />
+      <div>
+        <div className="navbar">
+          <ul>
+            <li>
+              <NavLink exact to="/" className="button">
+                <img
+                  className="logo"
+                  src="https://fontmeme.com/permalink/181124/118105101c49e97a2659b34a8b6bf1f1.png"
+                />
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/login" className="button">
+                Login
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <div className="App">
+          <div className="main-content">
+            <Route exact path="/" component={Home} />
+            <Route path="/:id" component={Movie} />
+          </div>
         </div>
       </div>
     );

@@ -7,10 +7,14 @@ class Home extends Component {
     return (
       <div>
         <div className="banner">
-          <input type="text" placeholder="Search Movies" />
+          <div className="search">
+            <input type="text" placeholder="Search Movies" />
+          </div>
         </div>
         <div>
-          <div className="featured">Featured</div>
+          <div className="featured">
+            <h1>Featured</h1>
+          </div>
           <Movies />
         </div>
       </div>

@@ -18,11 +18,14 @@ class Movies extends React.Component {
             return (
               <Link to={`/${movie.id}`}>
                 <div className="moviesDisplay">
-                  <img
-                    alt="Movie"
-                    src={`http://image.tmdb.org/t/p/w185/${movie.poster_path}`}
-                  />
-                  <h1>{movie.original_title}</h1>
+                  <div className="poster">
+                    <img
+                      alt="Movie"
+                      src={`http://image.tmdb.org/t/p/w300/${
+                        movie.poster_path
+                      }`}
+                    />
+                  </div>
                 </div>
               </Link>
             );

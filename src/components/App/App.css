@@ -3,6 +3,7 @@
   width: 100%;
   max-width: 1800px;
   margin: 0 auto;
+  padding-top: 70px;
 }
 
 .App-logo {
@@ -34,17 +35,26 @@
   }
 }
 
-.App ul {
-  list-style-type: none;
+.navbar {
+  background-color: #db8030;
+  width: 100%;
+  position: fixed;
+  height: 70px;
+  z-index: 2;
 }
 
-.navbar {
+.navbar ul {
   display: flex;
   justify-content: space-between;
-  background-color: #f6ad26;
-  width: 100%;
+  list-style-type: none;
+  margin-top: 0px;
 }
 
 .navbar img {
-  height: 60px;
+  height: 40px;
+  padding-top: 13px;
+}
+
+.navbar li {
+  align-self: center;
 }
