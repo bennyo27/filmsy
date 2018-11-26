@@ -14,8 +14,6 @@ class Home extends Component {
   // change serach value in state
   onSearchChange = e => {
     this.setState({ searchText: e.target.value });
-    e.preventDefault();
-    this.props.searchMovies(this.state.searchText);
   };
 
   // pass searchText into the action
@@ -45,23 +43,25 @@ class Home extends Component {
           </form>
           <div className="results">
             {this.props.searchResults.map(result => {
-              return (
-                <Link to={`/${result.id}`}>
-                  <div className="result-display">
-                    <div className="result-poster">
-                      <img
-                        alt="Movie"
-                        src={`http://image.tmdb.org/t/p/w45/${
-                          result.poster_path
-                        }`}
-                      />
+              if (result !== undefined) {
+                return (
+                  <Link to={`/${result.id}`}>
+                    <div className="result-display">
+                      <div className="result-poster">
+                        <img
+                          alt="Movie"
+                          src={`http://image.tmdb.org/t/p/w45/${
+                            result.poster_path
+                          }`}
+                        />
+                      </div>
+                      <div className="result-title">
+                        <h1>{result.original_title}</h1>
+                      </div>
                     </div>
-                    <div className="result-title">
-                      <h1>{result.original_title}</h1>
-                    </div>
-                  </div>
-                </Link>
-              );
+                  </Link>
+                );
+              }
             })}
           </div>
         </div>
