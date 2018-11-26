@@ -20,12 +20,8 @@ class App extends Component {
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/https://app.netlify.com/authorize?client_id=34c9be9d7be5801dd8706fe07c1378e71b5c60df082112218ad209dc5274b442&response_type=token&redirect_uri=https://filmsy.netlify.com/"
-                className="button"
-              >
-                Login
-              </NavLink>
+              {/* login fix */}
+              <div data-netlify-identity-button />
             </li>
           </ul>
         </div>
