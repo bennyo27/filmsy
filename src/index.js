@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import combineReducer from "./store/reducers/index.js";
 import rootReducer from "./store/reducers";
 import { BrowserRouter as Router } from "react-router-dom";
+require("dotenv").config();
 
 const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 

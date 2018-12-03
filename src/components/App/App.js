@@ -1,9 +1,19 @@
 import React, { Component } from "react";
-import "./App.css";
 import { NavLink, Route } from "react-router-dom";
 import Home from "../Home/Home.js";
 import Movie from "../Movie/Movie.js";
 import { withRouter } from "react-router";
+import { Button } from "react-bootstrap";
+import "./App.css";
+import auth0 from "auth0-js";
+import {
+  lock,
+  webAuth,
+  isAuthenticated,
+  logout,
+  getProfile
+} from "../../auth/auth";
+import { userInfo } from "os";
 
 class App extends Component {
   render() {
@@ -20,16 +30,29 @@ class App extends Component {
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/https://app.netlify.com/authorize?client_id=34c9be9d7be5801dd8706fe07c1378e71b5c60df082112218ad209dc5274b442&response_type=token&redirect_uri=https://filmsy.netlify.com/"
-                className="button"
-              >
-                Login
-              </NavLink>
+              {!isAuthenticated() && (
+                <button
+                  onClick={() => {
+                    lock.show();
+                  }}
+                >
+                  Login
+                </button>
+              )}
+              {isAuthenticated() && (
+                <button
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  Logout
+                </button>
+              )}
             </li>
           </ul>
         </div>
         <div className="App">
+          {isAuthenticated() ? getProfile() : "hlelo"}
           <div className="main-content">
             <Route exact path="/" component={Home} />
             <Route path="/:id" component={Movie} />
@@ -39,5 +62,4 @@ class App extends Component {
     );
   }
 }
-
 export default withRouter(App);

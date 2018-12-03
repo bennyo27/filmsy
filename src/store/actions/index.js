@@ -19,7 +19,6 @@ export const getMovies = () => {
         "https://api.themoviedb.org/3/movie/popular?api_key=b652b831029d5d63d5a4e9c3d5cccc5d&language=en-US&page=1"
       )
       .then(response => {
-        console.log(response.data.results[0].original_title);
         dispatch({
           type: MOVIES_FETCH_COMPLETE,
           payload: response.data.results
