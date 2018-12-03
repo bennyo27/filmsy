@@ -3,23 +3,20 @@ import { NavLink, Route } from "react-router-dom";
 import Home from "../Home/Home.js";
 import Movie from "../Movie/Movie.js";
 import { withRouter } from "react-router";
-import Auth from "../../auth/auth";
 import { Button } from "react-bootstrap";
 import "./App.css";
-
-const auth = new Auth();
+import auth0 from "auth0-js";
+import {
+  lock,
+  webAuth,
+  isAuthenticated,
+  logout,
+  getProfile
+} from "../../auth/auth";
+import { userInfo } from "os";
 
 class App extends Component {
-  login() {
-    auth.login();
-  }
-
-  logout() {
-    auth.logout();
-  }
-
   render() {
-    const { isAuthenticated } = auth;
     return (
       <div>
         <div className="navbar">
@@ -34,29 +31,28 @@ class App extends Component {
             </li>
             <li>
               {!isAuthenticated() && (
-                <Button
-                  id="qsLoginBtn"
-                  bsStyle="primary"
-                  className="btn-margin"
-                  onClick={this.login.bind(this)}
+                <button
+                  onClick={() => {
+                    lock.show();
+                  }}
                 >
-                  Log In
-                </Button>
+                  Login
+                </button>
               )}
               {isAuthenticated() && (
-                <Button
-                  id="qsLogoutBtn"
-                  bsStyle="primary"
-                  className="btn-margin"
-                  onClick={this.logout.bind(this)}
+                <button
+                  onClick={() => {
+                    logout();
+                  }}
                 >
-                  Log Out
-                </Button>
+                  Logout
+                </button>
               )}
             </li>
           </ul>
         </div>
         <div className="App">
+          {isAuthenticated() ? getProfile() : "hlelo"}
           <div className="main-content">
             <Route exact path="/" component={Home} />
             <Route path="/:id" component={Movie} />
@@ -66,5 +62,4 @@ class App extends Component {
     );
   }
 }
-
 export default withRouter(App);
