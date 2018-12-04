@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getMovie } from "../../store/actions";
+import { getMovie } from "../../store/actions/movieActions";
 import "./Movie.css";
 
 class Movie extends React.Component {

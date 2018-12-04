@@ -6,16 +6,30 @@ import { withRouter } from "react-router";
 import { Button } from "react-bootstrap";
 import "./App.css";
 import auth0 from "auth0-js";
-import {
-  lock,
-  webAuth,
-  isAuthenticated,
-  logout,
-  getProfile
-} from "../../auth/auth";
+import { lock, Auth } from "../../auth/auth";
 import { userInfo } from "os";
+import { connect } from "react-redux";
+import * as ACTIONS from "../../store/actions/authActions";
+import AuthCheck from "../../auth/auth-check";
+import Callback from "../../auth/callback";
+
+export const auth = new Auth();
+
+//Function for automatically handling authentication
+const handleAuthentication = (nextState, replace) => {
+  if (/access_token|id_token|error/.test(nextState.location.hash)) {
+    auth.handleAuthentication();
+  }
+};
 
 class App extends Component {
+  componentDidMount() {
+    if (auth.isAuthenticated()) {
+      this.props.login_success();
+    } else if (!auth.isAuthenticated()) {
+      this.props.login_failure();
+    }
+  }
   render() {
     return (
       <div>
@@ -30,19 +44,19 @@ class App extends Component {
               </NavLink>
             </li>
             <li>
-              {!isAuthenticated() && (
+              {!auth.isAuthenticated() && (
                 <button
                   onClick={() => {
-                    lock.show();
+                    auth.login();
                   }}
                 >
                   Login
                 </button>
               )}
-              {isAuthenticated() && (
+              {auth.isAuthenticated() && (
                 <button
                   onClick={() => {
-                    logout();
+                    auth.logout();
                   }}
                 >
                   Logout
@@ -52,14 +66,41 @@ class App extends Component {
           </ul>
         </div>
         <div className="App">
-          {isAuthenticated() ? getProfile() : "hlelo"}
           <div className="main-content">
             <Route exact path="/" component={Home} />
             <Route path="/:id" component={Movie} />
+            <Route
+              path="/authcheck"
+              render={props => <AuthCheck auth={auth} {...props} />}
+            />
+            <Route
+              path="/callback"
+              render={props => {
+                handleAuthentication(props);
+                return <Callback {...props} />;
+              }}
+            />
           </div>
         </div>
       </div>
     );
   }
 }
-export default withRouter(App);
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.authReducer.isAuthenticated
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    login_success: () => dispatch(ACTIONS.login_success()),
+    login_failure: () => dispatch(ACTIONS.login_failure())
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

@@ -8,7 +8,7 @@ import {
   MOVIE_SEARCH_START,
   MOVIE_SEARCH_COMPLETE,
   MOVIE_SEARCH_ERROR
-} from "../actions";
+} from "../actions/movieActions";
 
 const initialState = {
   movies: [],

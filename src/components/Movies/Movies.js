@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getMovies } from "../../store/actions";
+import { getMovies } from "../../store/actions/movieActions";
 import { Link } from "react-router-dom";
 import "./Movies.css";
 

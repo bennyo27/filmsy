@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Movies from "../Movies/Movies";
 import { connect } from "react-redux";
-import { searchMovies } from "../../store/actions";
+import { searchMovies } from "../../store/actions/movieActions";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
