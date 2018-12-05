@@ -4,9 +4,9 @@ exports.up = function(knex, Promise) {
     // id from auth0
     tbl.string("username").notNullable();
     tbl.string("email").notNullable();
-    tbl.boolean("email_verified").notNullable();
-    tbl.date("date_created").notNullable();
-    tbl.date("last_login").notNullable();
+    tbl.boolean("email_verified");
+    tbl.date("date_created");
+    tbl.date("last_login");
   });
 };
 
