@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as ASYNC_ACTIONS from "../store/actions/authActions";
 import history from "./history";
 import axios from "axios";
 
@@ -12,27 +11,25 @@ class AuthCheck extends Component {
 
   send_profile_to_db(profile) {
     const data = profile;
-    axios.post("api/post/userprofiletodb", data).then(() =>
+    console.log(data);
+    axios.post("users", data).then(() =>
       axios
-        .get("api/get/userprofilefromdb", {
+        .get("users", {
           params: { email: profile.profile.email }
         })
-        .then(res => this.props.db_profile_success(res.data))
+        .then(res => {
+          console.log(res);
+          this.props.db_profile_success(res.data);
+        })
         .then(history.replace("/"))
     );
   }
 
   componentDidMount() {
-    if (this.props.auth.isAuthenticated()) {
-      this.props.login_success();
-      this.props.profile_success(this.props.auth.userProfile);
-      this.send_profile_to_db(this.props.auth.userProfile);
-    } else {
-      this.props.login_failure();
-      this.props.profile_failure();
-      this.props.db_profile_failure();
-      history.replace("/");
+    if (this.props.auth.userProfile) {
+      console.log("hello", this.props.auth.userProfile);
     }
+    this.send_profile_to_db(this.props.auth.userProfile);
   }
 
   render() {
@@ -42,23 +39,9 @@ class AuthCheck extends Component {
 
 function mapStateToProps(state) {
   return {
-    db_profile: state.authReducer.DBUserProfile
+    db_profile: state.authReducer.DBUserProfile,
+    auth: state.authReducer.auth
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    login_success: () => dispatch(ASYNC_ACTIONS.login_success()),
-    login_failure: () => dispatch(ASYNC_ACTIONS.login_failure()),
-    profile_success: profile => dispatch(ASYNC_ACTIONS.get_profile(profile)),
-    profile_failure: () => dispatch(ASYNC_ACTIONS.remove_profile()),
-    db_profile_success: profile =>
-      dispatch(ASYNC_ACTIONS.set_db_profile(profile)),
-    db_profile_failure: () => dispatch(ASYNC_ACTIONS.remove_db_profile())
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AuthCheck);
+export default connect(mapStateToProps)(AuthCheck);

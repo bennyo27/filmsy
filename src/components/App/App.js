@@ -9,27 +9,13 @@ import auth0 from "auth0-js";
 import { lock, Auth } from "../../auth/auth";
 import { userInfo } from "os";
 import { connect } from "react-redux";
-import * as ACTIONS from "../../store/actions/authActions";
 import AuthCheck from "../../auth/auth-check";
-import Callback from "../../auth/callback";
-
-export const auth = new Auth();
-
-//Function for automatically handling authentication
-const handleAuthentication = (nextState, replace) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
-  }
-};
 
 class App extends Component {
   componentDidMount() {
-    if (auth.isAuthenticated()) {
-      this.props.login_success();
-    } else if (!auth.isAuthenticated()) {
-      this.props.login_failure();
-    }
+    this.props.auth.handleAuthentication();
   }
+
   render() {
     return (
       <div>
@@ -44,19 +30,19 @@ class App extends Component {
               </NavLink>
             </li>
             <li>
-              {!auth.isAuthenticated() && (
+              {!this.props.auth.isAuthenticated() && (
                 <button
                   onClick={() => {
-                    auth.login();
+                    this.props.auth.login();
                   }}
                 >
                   Login
                 </button>
               )}
-              {auth.isAuthenticated() && (
+              {this.props.auth.isAuthenticated() && (
                 <button
                   onClick={() => {
-                    auth.logout();
+                    this.props.auth.logout();
                   }}
                 >
                   Logout
@@ -69,17 +55,7 @@ class App extends Component {
           <div className="main-content">
             <Route exact path="/" component={Home} />
             <Route path="/:id" component={Movie} />
-            <Route
-              path="/authcheck"
-              render={props => <AuthCheck auth={auth} {...props} />}
-            />
-            <Route
-              path="/callback"
-              render={props => {
-                handleAuthentication(props);
-                return <Callback {...props} />;
-              }}
-            />
+            <Route path="/authcheck" component={AuthCheck} />} />
           </div>
         </div>
       </div>
@@ -89,18 +65,9 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: state.authReducer.isAuthenticated
+    isAuthenticated: state.authReducer.isAuthenticated,
+    auth: state.authReducer.auth
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    login_success: () => dispatch(ACTIONS.login_success()),
-    login_failure: () => dispatch(ACTIONS.login_failure())
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps)(App);

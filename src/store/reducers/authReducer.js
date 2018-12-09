@@ -1,8 +1,17 @@
 // Handles Authentication state
-
-import * as ACTION_TYPES from "../actions/action_types";
+import { Auth } from "../../auth/auth";
+import auth0 from "../../auth/auth";
+import {
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  GET_PROFILE,
+  REMOVE_PROFILE,
+  SET_DB_PROFILE,
+  REMOVE_DB_PROFILE
+} from "../actions/authActions";
 
 const initialState = {
+  auth: new Auth(),
   isAuthenticated: false,
   UserProfile: null,
   DBUserProfile: null
@@ -10,32 +19,32 @@ const initialState = {
 
 const Auth_Reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ACTION_TYPES.LOGIN_SUCCESS:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         isAuthenticated: true
       };
-    case ACTION_TYPES.LOGIN_FAILURE:
+    case LOGIN_FAILURE:
       return {
         ...state,
         isAuthenticated: false
       };
-    case ACTION_TYPES.GET_PROFILE:
+    case GET_PROFILE:
       return {
         ...state,
         UserProfile: action.payload
       };
-    case ACTION_TYPES.REMOVE_PROFILE:
+    case REMOVE_PROFILE:
       return {
         ...state,
         UserProfile: null
       };
-    case ACTION_TYPES.SET_DB_PROFILE:
+    case SET_DB_PROFILE:
       return {
         ...state,
         DBUserProfile: action.payload
       };
-    case ACTION_TYPES.REMOVE_DB_PROFILE:
+    case REMOVE_DB_PROFILE:
       return {
         ...state,
         DBUserProfile: null

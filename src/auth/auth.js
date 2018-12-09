@@ -11,9 +11,9 @@ export class Auth {
   auth0 = new auth0.WebAuth({
     domain: process.env.REACT_APP_DOMAIN_URL,
     clientID: process.env.REACT_APP_CLIENT_ID,
-    redirectUri: "http://localhost:3000/callback",
+    redirectUri: "http://localhost:3000",
     responseType: "token id_token",
-    scope: "openid profile email"
+    scope: "openid"
   });
 
   userProfile = {};
@@ -25,6 +25,7 @@ export class Auth {
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
     this.getProfile = this.getProfile.bind(this);
+    this.userProfile = this.userProfile;
   }
 
   login() {
@@ -32,6 +33,7 @@ export class Auth {
   }
 
   handleAuthentication() {
+    console.log("working");
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
@@ -48,27 +50,20 @@ export class Auth {
   }
 
   setSession(authResult) {
-    // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify(
+    // Set the time that the Access Token will expire at
+    var expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
     );
     localStorage.setItem("access_token", authResult.accessToken);
     localStorage.setItem("id_token", authResult.idToken);
     localStorage.setItem("expires_at", expiresAt);
-    // navigate to the home route
-    history.replace("/");
-    window.location.reload();
   }
 
   logout() {
-    // Clear access token and ID token from local storage
+    // Remove tokens and expiry time from localStorage
     localStorage.removeItem("access_token");
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
-    this.userProfile = null;
-    console.log("Logged Out");
-    // navigate to the home route
-    history.replace("/");
     window.location.reload();
   }
 
@@ -85,7 +80,7 @@ export class Auth {
   getProfile() {
     let accessToken = this.getAccessToken();
     if (accessToken) {
-      lock.getUserInfo(accessToken, (err, profile) => {
+      this.auth0.client.userInfo(accessToken, (err, profile) => {
         if (profile) {
           this.userProfile = { profile };
           console.log(this.userProfile);
@@ -96,8 +91,8 @@ export class Auth {
 
   isAuthenticated() {
     // Check whether the current time is past the
-    // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem("expires_at"));
+    // Access Token's expiry time
+    var expiresAt = JSON.parse(localStorage.getItem("expires_at"));
     return new Date().getTime() < expiresAt;
   }
 }
