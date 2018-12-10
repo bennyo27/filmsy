@@ -6,15 +6,38 @@ import { withRouter } from "react-router";
 import { Button } from "react-bootstrap";
 import "./App.css";
 import auth0 from "auth0-js";
-import { lock, Auth } from "../../auth/auth";
+import { Auth } from "../../auth/auth";
 import { userInfo } from "os";
 import { connect } from "react-redux";
 import AuthCheck from "../../auth/auth-check";
+import Auth0Lock from "auth0-lock";
+import history from "../../auth/history";
+
+var lock = new Auth0Lock(
+  process.env.REACT_APP_CLIENT_ID,
+  process.env.REACT_APP_DOMAIN_URL
+);
+
+lock.on("authenticated", function(authResult) {
+  // Use the token in authResult to getUserInfo() and save it to localStorage
+  console.log(authResult);
+  lock.getUserInfo(authResult.accessToken, function(error, profile) {
+    if (error) {
+      // Handle error
+      return;
+    }
+
+    console.log(profile);
+    localStorage.setItem("accessToken", authResult.accessToken);
+    localStorage.setItem("username", profile.nickname);
+    localStorage.setItem("email", profile.email);
+    localStorage.setItem("email_verified", profile.email_verified);
+    window.location.replace("/authcheck");
+  });
+});
 
 class App extends Component {
-  componentDidMount() {
-    this.props.auth.handleAuthentication();
-  }
+  componentDidMount() {}
 
   render() {
     return (
@@ -30,24 +53,24 @@ class App extends Component {
               </NavLink>
             </li>
             <li>
-              {!this.props.auth.isAuthenticated() && (
+              {true && (
                 <button
                   onClick={() => {
-                    this.props.auth.login();
+                    lock.show();
                   }}
                 >
                   Login
                 </button>
               )}
-              {this.props.auth.isAuthenticated() && (
+              {/* {lock.isAuthenticated() && (
                 <button
                   onClick={() => {
-                    this.props.auth.logout();
+                    lock.logout();
                   }}
                 >
                   Logout
                 </button>
-              )}
+              )} */}
             </li>
           </ul>
         </div>
@@ -55,7 +78,10 @@ class App extends Component {
           <div className="main-content">
             <Route exact path="/" component={Home} />
             <Route path="/:id" component={Movie} />
-            <Route path="/authcheck" component={AuthCheck} />} />
+            <Route
+              path="/authcheck"
+              render={props => <AuthCheck lock={lock} {...props} />}
+            />
           </div>
         </div>
       </div>
@@ -65,8 +91,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: state.authReducer.isAuthenticated,
-    auth: state.authReducer.auth
+    isAuthenticated: state.authReducer.isAuthenticated
   };
 }
 

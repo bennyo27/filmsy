@@ -1,98 +1,56 @@
-import { Auth0Lock } from "auth0-lock";
 import auth0 from "auth0-js";
 import history from "./history";
-
-export var lock = new Auth0Lock(
-  process.env.REACT_APP_CLIENT_ID,
-  process.env.REACT_APP_DOMAIN_URL
-);
+import Auth0Lock from "auth0-lock";
 
 export class Auth {
-  auth0 = new auth0.WebAuth({
-    domain: process.env.REACT_APP_DOMAIN_URL,
-    clientID: process.env.REACT_APP_CLIENT_ID,
-    redirectUri: "http://localhost:3000",
-    responseType: "token id_token",
-    scope: "openid"
-  });
-
-  userProfile = {};
+  // Universal Login configuration
+  lock = new Auth0Lock(
+    process.env.REACT_APP_CLIENT_ID,
+    process.env.REACT_APP_DOMAIN_URL
+  );
 
   constructor() {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-    this.handleAuthentication = this.handleAuthentication.bind(this);
+    this.setSession = this.setSession.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
-    this.getAccessToken = this.getAccessToken.bind(this);
-    this.getProfile = this.getProfile.bind(this);
-    this.userProfile = this.userProfile;
   }
 
   login() {
-    this.auth0.authorize();
-  }
-
-  handleAuthentication() {
-    console.log("working");
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-        this.getProfile();
-        setTimeout(function() {
-          history.replace("/authcheck");
-        }, 2000);
-      } else if (err) {
-        history.replace("/");
-        console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
-      }
-    });
-  }
-
-  setSession(authResult) {
-    // Set the time that the Access Token will expire at
-    var expiresAt = JSON.stringify(
-      authResult.expiresIn * 1000 + new Date().getTime()
-    );
-    localStorage.setItem("access_token", authResult.accessToken);
-    localStorage.setItem("id_token", authResult.idToken);
-    localStorage.setItem("expires_at", expiresAt);
+    // authorize() connects to Auth0 and triggers Universal Login
+    this.lock.show();
   }
 
   logout() {
-    // Remove tokens and expiry time from localStorage
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
-    window.location.reload();
+    // Clear access token and ID token from local storage
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    // navigate to the home route
   }
 
-  getAccessToken() {
-    if (localStorage.getItem("access_token")) {
-      const accessToken = localStorage.getItem("access_token");
-      return accessToken;
-    } else {
-      console.log("No accessToken");
-      return null;
-    }
-  }
-
-  getProfile() {
-    let accessToken = this.getAccessToken();
-    if (accessToken) {
-      this.auth0.client.userInfo(accessToken, (err, profile) => {
-        if (profile) {
-          this.userProfile = { profile };
-          console.log(this.userProfile);
+  setSession() {
+    this.lock.on("authenticated", function(authResult) {
+      // Use the token in authResult to getUserInfo() and save it to localStorage
+      console.log(authResult);
+      this.lock.getUserInfo(authResult.accessToken, function(error, profile) {
+        if (error) {
+          // Handle error
+          return;
         }
+
+        localStorage.setItem("accessToken", authResult.accessToken);
+        localStorage.setItem("username", profile.nickname);
+        localStorage.setItem("email", profile.email);
       });
-    }
+    });
   }
 
   isAuthenticated() {
-    // Check whether the current time is past the
-    // Access Token's expiry time
-    var expiresAt = JSON.parse(localStorage.getItem("expires_at"));
-    return new Date().getTime() < expiresAt;
+    if (localStorage.getItem("accessToken")) {
+      return true;
+    }
   }
 }
+
+export default Auth;

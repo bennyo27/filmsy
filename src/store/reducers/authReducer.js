@@ -11,9 +11,8 @@ import {
 } from "../actions/authActions";
 
 const initialState = {
-  auth: new Auth(),
   isAuthenticated: false,
-  UserProfile: null,
+  UserProfile: {},
   DBUserProfile: null
 };
 

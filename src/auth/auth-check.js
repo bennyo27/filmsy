@@ -9,27 +9,26 @@ class AuthCheck extends Component {
     this.send_profile_to_db = this.send_profile_to_db.bind(this);
   }
 
-  send_profile_to_db(profile) {
-    const data = profile;
+  send_profile_to_db(username, email, email_verified) {
+    const data = { username, email, email_verified };
     console.log(data);
-    axios.post("users", data).then(() =>
+    axios.post("http://localhost:3300/users", data).then(() =>
       axios
-        .get("users", {
+        .get("http://localhost:3300/users", {
           params: { email: profile.profile.email }
         })
-        .then(res => {
-          console.log(res);
-          this.props.db_profile_success(res.data);
-        })
-        .then(history.replace("/"))
+        .then(res => this.props.db_profile_success(res.data))
+        .then(window.location.replace("/");)
     );
   }
 
   componentDidMount() {
-    if (this.props.auth.userProfile) {
-      console.log("hello", this.props.auth.userProfile);
-    }
-    this.send_profile_to_db(this.props.auth.userProfile);
+    this.send_profile_to_db(
+      localStorage.getItem("username"),
+      localStorage.getItem("email"),
+      localStorage.getItem("email_verified")
+    );
+    
   }
 
   render() {
@@ -37,11 +36,4 @@ class AuthCheck extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    db_profile: state.authReducer.DBUserProfile,
-    auth: state.authReducer.auth
-  };
-}
-
-export default connect(mapStateToProps)(AuthCheck);
+export default AuthCheck;
