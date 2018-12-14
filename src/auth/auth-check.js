@@ -11,15 +11,18 @@ class AuthCheck extends Component {
 
   send_profile_to_db(username, email, email_verified) {
     const data = { username, email, email_verified };
-    console.log(data);
-    axios.post("http://localhost:3300/users", data).then(() =>
+    axios.post("http://localhost:3300/users", data).then(() => {
       axios
-        .get("http://localhost:3300/users", {
-          params: { email: profile.profile.email }
+        .get(`http://localhost:3300/users/${email}`)
+        .then(res => {
+          console.log(res.data);
+          localStorage.setItem("username", res.data.username);
+          localStorage.setItem("email", res.data.email);
+          localStorage.setItem("email_verified", res.data.email_verified);
         })
-        .then(res => this.props.db_profile_success(res.data))
-        .then(window.location.replace("/");)
-    );
+        .catch(err => console.log(err.response));
+    });
+    this.props.history.push("/");
   }
 
   componentDidMount() {
@@ -28,7 +31,6 @@ class AuthCheck extends Component {
       localStorage.getItem("email"),
       localStorage.getItem("email_verified")
     );
-    
   }
 
   render() {

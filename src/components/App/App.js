@@ -32,7 +32,7 @@ lock.on("authenticated", function(authResult) {
     localStorage.setItem("username", profile.nickname);
     localStorage.setItem("email", profile.email);
     localStorage.setItem("email_verified", profile.email_verified);
-    window.location.replace("/authcheck");
+    this.props.history.push("/authcheck");
   });
 });
 
@@ -53,7 +53,7 @@ class App extends Component {
               </NavLink>
             </li>
             <li>
-              {true && (
+              {!localStorage.getItem("accessToken") && (
                 <button
                   onClick={() => {
                     lock.show();
@@ -62,7 +62,7 @@ class App extends Component {
                   Login
                 </button>
               )}
-              {/* {lock.isAuthenticated() && (
+              {localStorage.getItem("accessToken") && (
                 <button
                   onClick={() => {
                     lock.logout();
@@ -70,7 +70,7 @@ class App extends Component {
                 >
                   Logout
                 </button>
-              )} */}
+              )}
             </li>
           </ul>
         </div>
