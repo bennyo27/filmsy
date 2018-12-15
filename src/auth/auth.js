@@ -26,6 +26,7 @@ export class Auth {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("username");
     localStorage.removeItem("email");
+    localStorage.removeItem("email_verified");
     // navigate to the home route
   }
 
@@ -49,6 +50,8 @@ export class Auth {
   isAuthenticated() {
     if (localStorage.getItem("accessToken")) {
       return true;
+    } else {
+      return false;
     }
   }
 }

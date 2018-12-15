@@ -41,3 +41,10 @@
   color: black;
   font-size: 1.8em;
 }
+
+/* Star Rating CSS */
+.main-score {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
