@@ -43,8 +43,23 @@
 }
 
 /* Star Rating CSS */
+.movie-score {
+  display: flex;
+  justify-content: center;
+}
+
 .main-score {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 500px;
+}
+
+.rating-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating-stars {
+  align-self: center;
 }

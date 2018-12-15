@@ -2,52 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { getMovie } from "../../store/actions/movieActions";
 import "./Movie.css";
-import Rating from "react-rating";
+import MovieRating from "./MovieRating";
 
 class Movie extends React.Component {
-  state = {
-    story: 0,
-    audio: 0,
-    visuals: 0,
-    characters: 0,
-    dialogue: 0
-  };
-
-  handleStoryRating = value => {
-    //here set your state for rating
-    this.setState({
-      story: value
-    });
-  };
-
-  handleAudioRating = value => {
-    //here set your state for rating
-    this.setState({
-      audio: value
-    });
-  };
-
-  handleVisualsRating = value => {
-    //here set your state for rating
-    this.setState({
-      visuals: value
-    });
-  };
-
-  handleCharactersRating = value => {
-    //here set your state for rating
-    this.setState({
-      characters: value
-    });
-  };
-
-  handleDialogueRating = value => {
-    //here set your state for rating
-    this.setState({
-      dialogue: value
-    });
-  };
-
   //componentDidMount for matching props
   componentDidMount() {
     this.props.getMovie(this.props.match.params.id);
@@ -84,38 +41,7 @@ class Movie extends React.Component {
           </div>
         </div>
         <div className="movie-score">
-          <div className="main-score">
-            <Rating
-              onChange={this.handleStoryRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.story}
-            />
-            <Rating
-              onChange={this.handleAudioRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.audio}
-            />
-            <Rating
-              onChange={this.handleVisualsRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.visuals}
-            />
-            <Rating
-              onChange={this.handleCharactersRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.characters}
-            />
-            <Rating
-              onChange={this.handleDialogueRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.dialogue}
-            />
-          </div>
+          <MovieRating />
         </div>
       </div>
     );
