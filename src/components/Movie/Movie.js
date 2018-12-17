@@ -8,12 +8,6 @@ class Movie extends React.Component {
   //componentDidMount for matching props
   componentDidMount() {
     this.props.getMovie(this.props.match.params.id);
-    localStorage.setItem("movie_id", this.props.movie.id);
-  }
-
-  calcScore(characters, dialogue, story, visuals, audio) {
-    let result = characters + dialogue + story + visuals + audio;
-    return result / 5;
   }
 
   render() {
@@ -42,7 +36,7 @@ class Movie extends React.Component {
           </div>
         </div>
         <div className="movie-score">
-          <MovieRating />
+          <MovieRating movie_id={this.props.match.params.id} />
         </div>
       </div>
     );

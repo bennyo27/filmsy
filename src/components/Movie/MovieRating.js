@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Rating from "react-rating";
 import axios from "axios";
 import { connect } from "react-redux";
+import Movie from "./Movie";
 
 class MovieRating extends Component {
   state = {
@@ -12,32 +13,42 @@ class MovieRating extends Component {
     dialogue: 0
   };
 
-  // FIX THIS ----------------------------
+  calcScore(story, audio, visuals, characters, dialogue) {
+    let result = story + audio + visuals + characters + dialogue;
+    return result / 5;
+  }
+
+  scoreFetcher = () => {
+    let movie_id = this.props.movie_id;
+    axios.get(`http://localhost:3300/reviews/${movie_id}`).then(res => {
+      console.log(res.data);
+    });
+  };
+
   ratingFetcher = () => {
     let email = localStorage.getItem("email");
-    let movie_id = localStorage.getItem("movie_id");
-    console.log(email, movie_id);
+    let movie_id = this.props.movie_id;
 
     axios
       .get(`http://localhost:3300/users/${email}/movie/${movie_id}`)
       .then(res => {
         console.log(res);
-        // if (res.data.reviews) {
-        //   let newState = JSON.parse(res.data.reviews);
-        //   this.setState({
-        //     story: newState.story,
-        //     audio: newState.audio,
-        //     visuals: newState.visuals,
-        //     characters: newState.characters,
-        //     dialogue: newState.dialogue
-        //   });
-        // }
+        if (res.data.reviews[0]) {
+          console.log(res.data.reviews[0].user_reviews);
+          let newState = JSON.parse(res.data.reviews[0].user_reviews);
+          this.setState({
+            story: newState.story,
+            audio: newState.audio,
+            visuals: newState.visuals,
+            characters: newState.characters,
+            dialogue: newState.dialogue
+          });
+        }
       });
   };
 
   ratingPost = () => {
     let user_reviews = this.state;
-    console.log(this.state);
     let user_email = localStorage.getItem("email");
     let movie_id = this.props.movie_id;
     let reviews = { user_email, movie_id, user_reviews };
@@ -116,11 +127,21 @@ class MovieRating extends Component {
 
   componentDidMount() {
     this.ratingFetcher();
+    this.scoreFetcher();
   }
 
   render() {
     return (
       <div className="main-score">
+        <h2>
+          {this.calcScore(
+            this.state.story,
+            this.state.audio,
+            this.state.visuals,
+            this.state.characters,
+            this.state.dialogue
+          )}
+        </h2>
         <div className="rating-container">
           <div className="rating-category">
             <h1>Story</h1>
@@ -191,4 +212,5 @@ class MovieRating extends Component {
   }
 }
 
+// exports
 export default MovieRating;

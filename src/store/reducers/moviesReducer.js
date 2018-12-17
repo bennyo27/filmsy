@@ -55,7 +55,7 @@ const moviesReducer = (state = initialState, action) => {
       return {
         ...state,
         movie: action.payload,
-        fetchingMovie: true,
+        fetchingMovie: false,
         movieFetched: true
       };
 
