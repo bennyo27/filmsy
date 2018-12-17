@@ -32,7 +32,7 @@ lock.on("authenticated", function(authResult) {
     localStorage.setItem("username", profile.nickname);
     localStorage.setItem("email", profile.email);
     localStorage.setItem("email_verified", profile.email_verified);
-    this.props.history.push("/authcheck");
+    history.push("/authcheck");
   });
 });
 
@@ -65,7 +65,10 @@ class App extends Component {
               {localStorage.getItem("accessToken") && (
                 <button
                   onClick={() => {
-                    lock.logout();
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("username");
+                    localStorage.removeItem("email");
+                    localStorage.removeItem("email_verified");
                   }}
                 >
                   Logout
@@ -95,4 +98,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));
