@@ -3,6 +3,7 @@ import Rating from "react-rating";
 import axios from "axios";
 import { connect } from "react-redux";
 import Movie from "./Movie";
+import { Tabs, Tab } from "react-bootstrap";
 
 class MovieRating extends Component {
   state = {
@@ -10,7 +11,8 @@ class MovieRating extends Component {
     audio: 0,
     visuals: 0,
     characters: 0,
-    dialogue: 0
+    dialogue: 0,
+    averages: {}
   };
 
   calcScore(story, audio, visuals, characters, dialogue) {
@@ -21,7 +23,7 @@ class MovieRating extends Component {
   scoreFetcher = () => {
     let movie_id = this.props.movie_id;
     axios.get(`http://localhost:3300/reviews/${movie_id}`).then(res => {
-      console.log(res.data);
+      this.setState({ averages: res.data });
     });
   };
 
@@ -47,8 +49,8 @@ class MovieRating extends Component {
       });
   };
 
-  ratingPost = () => {
-    let user_reviews = this.state;
+  ratingPost = (story, audio, visuals, characters, dialogue) => {
+    let user_reviews = { story, audio, visuals, characters, dialogue };
     let user_email = localStorage.getItem("email");
     let movie_id = this.props.movie_id;
     let reviews = { user_email, movie_id, user_reviews };
@@ -76,7 +78,13 @@ class MovieRating extends Component {
         story: value
       },
       () => {
-        this.ratingPost();
+        this.ratingPost(
+          this.state.story,
+          this.state.audio,
+          this.state.visuals,
+          this.state.characters,
+          this.state.dialogue
+        );
       }
     );
   };
@@ -87,7 +95,13 @@ class MovieRating extends Component {
         audio: value
       },
       () => {
-        this.ratingPost();
+        this.ratingPost(
+          this.state.story,
+          this.state.audio,
+          this.state.visuals,
+          this.state.characters,
+          this.state.dialogue
+        );
       }
     );
   };
@@ -98,7 +112,13 @@ class MovieRating extends Component {
         visuals: value
       },
       () => {
-        this.ratingPost();
+        this.ratingPost(
+          this.state.story,
+          this.state.audio,
+          this.state.visuals,
+          this.state.characters,
+          this.state.dialogue
+        );
       }
     );
   };
@@ -109,7 +129,13 @@ class MovieRating extends Component {
         characters: value
       },
       () => {
-        this.ratingPost();
+        this.ratingPost(
+          this.state.story,
+          this.state.audio,
+          this.state.visuals,
+          this.state.characters,
+          this.state.dialogue
+        );
       }
     );
   };
@@ -120,7 +146,13 @@ class MovieRating extends Component {
         dialogue: value
       },
       () => {
-        this.ratingPost();
+        this.ratingPost(
+          this.state.story,
+          this.state.audio,
+          this.state.visuals,
+          this.state.characters,
+          this.state.dialogue
+        );
       }
     );
   };
@@ -133,79 +165,134 @@ class MovieRating extends Component {
   render() {
     return (
       <div className="main-score">
-        <h2>
-          {this.calcScore(
-            this.state.story,
-            this.state.audio,
-            this.state.visuals,
-            this.state.characters,
-            this.state.dialogue
-          )}
-        </h2>
-        <div className="rating-container">
-          <div className="rating-category">
-            <h1>Story</h1>
+        <div className="user-ratings">
+          <h1>Your Ratings</h1>
+          <div className="rating-container">
+            <div className="rating-category">
+              <h1>Story</h1>
+            </div>
+            <div className="rating-stars">
+              <Rating
+                onChange={this.handleStoryRating}
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.story}
+              />
+            </div>
           </div>
-          <div className="rating-stars">
-            <Rating
-              onChange={this.handleStoryRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.story}
-            />
+          <div className="rating-container">
+            <div className="rating-category">
+              <h1>Audio</h1>
+            </div>
+            <div className="rating-stars">
+              <Rating
+                onChange={this.handleAudioRating}
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.audio}
+              />
+            </div>
           </div>
+          <div className="rating-container">
+            <div className="rating-category">
+              <h1>Visuals</h1>
+            </div>
+            <div className="rating-stars">
+              <Rating
+                onChange={this.handleVisualsRating}
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.visuals}
+              />
+            </div>
+          </div>
+          <div className="rating-container">
+            <div className="rating-category">
+              <h1>Characters</h1>
+            </div>
+            <div className="rating-stars">
+              <Rating
+                onChange={this.handleCharactersRating}
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.characters}
+              />
+            </div>
+          </div>
+          <div className="rating-container">
+            <div className="rating-category">
+              <h1>Dialogue</h1>
+            </div>
+            <div className="rating-stars">
+              <Rating
+                onChange={this.handleDialogueRating}
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.dialogue}
+              />
+            </div>
+          </div>
+          <h2>
+            {this.calcScore(
+              this.state.story,
+              this.state.audio,
+              this.state.visuals,
+              this.state.characters,
+              this.state.dialogue
+            )}
+          </h2>
         </div>
-        <div className="rating-container">
-          <div className="rating-category">
-            <h1>Audio</h1>
+
+        <div className="average">
+          <h2>Average Ratings</h2>
+          <div className="average-scores">
+            <div className="average-rating">
+              <h3>Story </h3>
+              <Rating
+                readonly="true"
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.averages.story_average}
+              />
+            </div>
+            <div className="average-rating">
+              <h3>Audio </h3>
+              <Rating
+                readonly="true"
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.averages.audio_average}
+              />
+            </div>
+            <div className="average-rating">
+              <h3>Visuals </h3>
+              <Rating
+                readonly="true"
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.averages.visuals_average}
+              />
+            </div>
+            <div className="average-rating">
+              <h3>Characters </h3>
+              <Rating
+                readonly="true"
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.averages.characters_average}
+              />
+            </div>
+            <div className="average-rating">
+              <h3>Dialogue </h3>
+              <Rating
+                readonly="true"
+                emptySymbol="fa fa-star-o fa-2x"
+                fullSymbol="fa fa-star fa-2x"
+                initialRating={this.state.averages.dialogue_average}
+              />
+            </div>
           </div>
-          <div className="rating-stars">
-            <Rating
-              onChange={this.handleAudioRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.audio}
-            />
-          </div>
-        </div>
-        <div className="rating-container">
-          <div className="rating-category">
-            <h1>Visuals</h1>
-          </div>
-          <div className="rating-stars">
-            <Rating
-              onChange={this.handleVisualsRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.visuals}
-            />
-          </div>
-        </div>
-        <div className="rating-container">
-          <div className="rating-category">
-            <h1>Characters</h1>
-          </div>
-          <div className="rating-stars">
-            <Rating
-              onChange={this.handleCharactersRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.characters}
-            />
-          </div>
-        </div>
-        <div className="rating-container">
-          <div className="rating-category">
-            <h1>Dialogue</h1>
-          </div>
-          <div className="rating-stars">
-            <Rating
-              onChange={this.handleDialogueRating}
-              emptySymbol="fa fa-star-o fa-2x"
-              fullSymbol="fa fa-star fa-2x"
-              initialRating={this.state.dialogue}
-            />
-          </div>
+          <h2>{this.state.averages.final_score}</h2>
         </div>
       </div>
     );

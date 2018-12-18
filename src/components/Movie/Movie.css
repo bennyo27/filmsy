@@ -1,7 +1,8 @@
 .movie-page {
   display: flex;
   margin: 0 auto;
-  width: 1000px;
+  width: 100%;
+  max-width: 1000px;
   margin-top: 100px;
   /* padding: 30px;
   border: 8px solid #282b28;
@@ -49,10 +50,19 @@
 }
 
 .main-score {
+  margin-top: 50px;
+  margin-bottom: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 500px;
+  width: 100%;
+  max-width: 550px;
+}
+
+.user-ratings {
+  background-color: #fff;
+  padding: 0 30px;
+  border-radius: 20px;
 }
 
 .rating-container {
@@ -62,4 +72,20 @@
 
 .rating-stars {
   align-self: center;
+}
+
+/* Average score CSS */
+.average {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.average-scores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
 }
