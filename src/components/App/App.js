@@ -4,13 +4,8 @@ import Home from "../Home/Home.js";
 import Movie from "../Movie/Movie.js";
 import { withRouter } from "react-router";
 import "./App.css";
-import auth0 from "auth0-js";
-import { Auth } from "../../auth/auth";
-import { userInfo } from "os";
 import { connect } from "react-redux";
-import AuthCheck from "../../auth/auth-check";
 import Auth0Lock from "auth0-lock";
-import history from "../../auth/history";
 import axios from "axios";
 
 var lock = new Auth0Lock(
@@ -71,6 +66,7 @@ class App extends Component {
               <NavLink exact to="/" className="button">
                 <img
                   className="logo"
+                  alt="filmsy-logo"
                   src="https://fontmeme.com/permalink/181124/118105101c49e97a2659b34a8b6bf1f1.png"
                 />
               </NavLink>
