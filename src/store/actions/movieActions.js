@@ -39,7 +39,10 @@ export const getMovie = id => {
       )
       .then(response => {
         console.log(response.data);
-        dispatch({ type: MOVIE_FETCH_COMPLETE, payload: response.data });
+        dispatch({
+          type: MOVIE_FETCH_COMPLETE,
+          payload: response.data
+        });
       })
       .catch(err => {
         dispatch({ type: MOVIE_FETCH_ERROR });

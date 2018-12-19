@@ -1,8 +1,9 @@
 .movie-page {
   display: flex;
   margin: 0 auto;
-  width: 1000px;
-  margin-top: 100px;
+  width: 100%;
+  max-width: 1100px;
+  margin-top: 30px;
   /* padding: 30px;
   border: 8px solid #282b28;
   border-radius: 50px;
@@ -40,4 +41,70 @@
 .movie-bio {
   color: black;
   font-size: 1.8em;
+}
+
+/* Star Rating CSS */
+.movie-score {
+  display: flex;
+  justify-content: center;
+}
+
+.main-score {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.user-title {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: #d36135;
+  color: #fff;
+  padding: 0.1px;
+}
+
+.user-ratings {
+  background-color: #fff;
+  border-radius: 20px;
+  margin-right: 20px;
+  width: 50%;
+}
+
+.rating-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.rating-stars {
+  align-self: center;
+}
+
+/* Average score CSS */
+.average {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 20px;
+  width: 50%;
+}
+
+.average-title {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: #d36135;
+  color: #fff;
+}
+
+.average-scores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.average-rating {
+  margin: 10px;
 }

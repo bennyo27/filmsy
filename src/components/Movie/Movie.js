@@ -1,17 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getMovie } from "../../store/actions";
+import { getMovie } from "../../store/actions/movieActions";
 import "./Movie.css";
+import MovieRating from "./MovieRating";
 
 class Movie extends React.Component {
   //componentDidMount for matching props
   componentDidMount() {
     this.props.getMovie(this.props.match.params.id);
-  }
-
-  calcScore(characters, dialogue, story, visuals, audio) {
-    let result = characters + dialogue + story + visuals + audio;
-    return result / 5;
   }
 
   render() {
@@ -40,7 +36,7 @@ class Movie extends React.Component {
           </div>
         </div>
         <div className="movie-score">
-          <h1>{this.calcScore(6, 5, 7, 7, 6)}</h1>
+          <MovieRating movie_id={this.props.match.params.id} />
         </div>
       </div>
     );

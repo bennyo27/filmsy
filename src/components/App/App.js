@@ -3,19 +3,65 @@ import { NavLink, Route } from "react-router-dom";
 import Home from "../Home/Home.js";
 import Movie from "../Movie/Movie.js";
 import { withRouter } from "react-router";
-import { Button } from "react-bootstrap";
 import "./App.css";
 import auth0 from "auth0-js";
-import {
-  lock,
-  webAuth,
-  isAuthenticated,
-  logout,
-  getProfile
-} from "../../auth/auth";
+import { Auth } from "../../auth/auth";
 import { userInfo } from "os";
+import { connect } from "react-redux";
+import AuthCheck from "../../auth/auth-check";
+import Auth0Lock from "auth0-lock";
+import history from "../../auth/history";
+import axios from "axios";
+
+var lock = new Auth0Lock(
+  process.env.REACT_APP_CLIENT_ID,
+  process.env.REACT_APP_DOMAIN_URL
+);
+
+lock.on("authenticated", function(authResult) {
+  // Use the token in authResult to getUserInfo() and save it to localStorage
+  console.log(authResult);
+  lock.getUserInfo(authResult.accessToken, function(error, profile) {
+    if (error) {
+      // Handle error
+      return;
+    }
+
+    console.log(profile);
+    localStorage.setItem("accessToken", authResult.accessToken);
+    localStorage.setItem("username", profile.nickname);
+    localStorage.setItem("email", profile.email);
+    localStorage.setItem("email_verified", profile.email_verified);
+    window.location.reload();
+  });
+});
 
 class App extends Component {
+  constructor() {
+    super();
+    this.send_profile_to_db = this.send_profile_to_db.bind(this);
+  }
+
+  send_profile_to_db(username, email, email_verified) {
+    const data = { username, email, email_verified };
+    axios.post("https://filmsy-app.herokuapp.com/users", data).then(() => {
+      axios.get(`https://filmsy-app.herokuapp.com/users/${email}`).then(res => {
+        console.log(res.data);
+        localStorage.setItem("username", res.data.username);
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("email_verified", res.data.email_verified);
+      });
+    });
+  }
+
+  componentDidMount() {
+    this.send_profile_to_db(
+      localStorage.getItem("username"),
+      localStorage.getItem("email"),
+      localStorage.getItem("email_verified")
+    );
+  }
+
   render() {
     return (
       <div>
@@ -30,7 +76,7 @@ class App extends Component {
               </NavLink>
             </li>
             <li>
-              {!isAuthenticated() && (
+              {!localStorage.getItem("accessToken") && (
                 <button
                   onClick={() => {
                     lock.show();
@@ -39,10 +85,14 @@ class App extends Component {
                   Login
                 </button>
               )}
-              {isAuthenticated() && (
+              {localStorage.getItem("accessToken") && (
                 <button
                   onClick={() => {
-                    logout();
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("username");
+                    localStorage.removeItem("email");
+                    localStorage.removeItem("email_verified");
+                    this.props.history.push("/");
                   }}
                 >
                   Logout
@@ -52,14 +102,20 @@ class App extends Component {
           </ul>
         </div>
         <div className="App">
-          {isAuthenticated() ? getProfile() : "hlelo"}
           <div className="main-content">
             <Route exact path="/" component={Home} />
-            <Route path="/:id" component={Movie} />
+            <Route path="/:id" component={Movie} />} />
           </div>
         </div>
       </div>
     );
   }
 }
-export default withRouter(App);
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.authReducer.isAuthenticated
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(App));
