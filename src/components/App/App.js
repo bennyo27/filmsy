@@ -9,8 +9,8 @@ import Auth0Lock from "auth0-lock";
 import axios from "axios";
 
 var lock = new Auth0Lock(
-  process.env.REACT_APP_CLIENT_ID,
-  process.env.REACT_APP_DOMAIN_URL
+  "lElY8YB0H8bbaVlBUExJteiEmVxweAha",
+  "dashboard-app.auth0.com"
 );
 
 lock.on("authenticated", function(authResult) {

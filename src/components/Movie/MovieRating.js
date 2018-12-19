@@ -61,7 +61,7 @@ class MovieRating extends Component {
         if (res.data.reviews[0]) {
           // update
           axios.put(
-            `https://filmsy-app.herokuapp.comusers/${user_email}/movie/${movie_id}`,
+            `https://filmsy-app.herokuapp.com/users/${user_email}/movie/${movie_id}`,
             user_reviews
           );
         } else {
