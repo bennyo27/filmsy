@@ -1,5 +1,6 @@
 .movieDisplay {
-  width: 1800px;
+  max-width: 1800px;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -17,4 +18,31 @@
 .poster img:hover {
   box-shadow: 10px 10px #282b28;
   width: 305px;
+}
+
+/* Media */
+@media (max-width: 800px) {
+  .poster img {
+    width: 200px;
+    height: 300px;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .poster img:hover {
+    width: 203px;
+  }
+}
+
+@media (max-width: 500px) {
+  .poster img {
+    width: 200px;
+    height: 300px;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .poster img:hover {
+    width: 203px;
+  }
 }

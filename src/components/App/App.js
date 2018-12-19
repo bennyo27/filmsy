@@ -100,7 +100,7 @@ class App extends Component {
         <div className="App">
           <div className="main-content">
             <Route exact path="/" component={Home} />
-            <Route path="/:id" component={Movie} />} />
+            <Route path="/:id" component={Movie} />
           </div>
         </div>
       </div>

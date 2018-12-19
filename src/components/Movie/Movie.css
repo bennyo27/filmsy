@@ -108,3 +108,64 @@
 .average-rating {
   margin: 10px;
 }
+
+/* Media */
+@media (max-width: 500px) {
+  .movie-page {
+    flex-direction: column;
+  }
+
+  .movie-poster {
+    margin-bottom: 10px;
+  }
+
+  .movie-poster img {
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+
+  .movie-title {
+    width: 100%;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+
+  .movie-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+
+  .main-score {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .user-ratings {
+    background-color: #fff;
+    border-radius: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .average {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 20px;
+    width: 100%;
+  }
+}
