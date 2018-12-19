@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import Rating from "react-rating";
 import axios from "axios";
-import { connect } from "react-redux";
-import Movie from "./Movie";
 
 class MovieRating extends Component {
   state = {

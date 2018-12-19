@@ -1,6 +1,4 @@
 // Handles Authentication state
-import { Auth } from "../../auth/auth";
-import auth0 from "../../auth/auth";
 import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
