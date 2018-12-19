@@ -3,7 +3,6 @@ import { NavLink, Route } from "react-router-dom";
 import Home from "../Home/Home.js";
 import Movie from "../Movie/Movie.js";
 import { withRouter } from "react-router";
-import { Button } from "react-bootstrap";
 import "./App.css";
 import auth0 from "auth0-js";
 import { Auth } from "../../auth/auth";
@@ -12,6 +11,7 @@ import { connect } from "react-redux";
 import AuthCheck from "../../auth/auth-check";
 import Auth0Lock from "auth0-lock";
 import history from "../../auth/history";
+import axios from "axios";
 
 var lock = new Auth0Lock(
   process.env.REACT_APP_CLIENT_ID,
@@ -32,12 +32,35 @@ lock.on("authenticated", function(authResult) {
     localStorage.setItem("username", profile.nickname);
     localStorage.setItem("email", profile.email);
     localStorage.setItem("email_verified", profile.email_verified);
-    history.push("/authcheck");
+    window.location.reload();
   });
 });
 
 class App extends Component {
-  componentDidMount() {}
+  constructor() {
+    super();
+    this.send_profile_to_db = this.send_profile_to_db.bind(this);
+  }
+
+  send_profile_to_db(username, email, email_verified) {
+    const data = { username, email, email_verified };
+    axios.post("https://filmsy-app.herokuapp.com/users", data).then(() => {
+      axios.get(`https://filmsy-app.herokuapp.com/users/${email}`).then(res => {
+        console.log(res.data);
+        localStorage.setItem("username", res.data.username);
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("email_verified", res.data.email_verified);
+      });
+    });
+  }
+
+  componentDidMount() {
+    this.send_profile_to_db(
+      localStorage.getItem("username"),
+      localStorage.getItem("email"),
+      localStorage.getItem("email_verified")
+    );
+  }
 
   render() {
     return (
@@ -69,6 +92,7 @@ class App extends Component {
                     localStorage.removeItem("username");
                     localStorage.removeItem("email");
                     localStorage.removeItem("email_verified");
+                    this.props.history.push("/");
                   }}
                 >
                   Logout
@@ -80,11 +104,7 @@ class App extends Component {
         <div className="App">
           <div className="main-content">
             <Route exact path="/" component={Home} />
-            <Route path="/:id" component={Movie} />
-            <Route
-              path="/authcheck"
-              render={props => <AuthCheck lock={lock} {...props} />}
-            />
+            <Route path="/:id" component={Movie} />} />
           </div>
         </div>
       </div>

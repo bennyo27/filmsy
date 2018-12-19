@@ -1,5 +1,4 @@
 import auth0 from "auth0-js";
-import history from "./history";
 import Auth0Lock from "auth0-lock";
 
 export class Auth {
