@@ -60,7 +60,8 @@
 }
 
 .results {
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   display: inline-block;
   margin-top: 428px;
 }
@@ -69,13 +70,13 @@
   display: flex;
   border: 1px solid grey;
   background-color: #fff;
-  height: 80px;
+  height: auto;
   padding-top: 10px;
   transition: 0.2s;
 }
 
 .result-display:hover {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(192, 192, 192, 1);
 }
 
 .result-poster {

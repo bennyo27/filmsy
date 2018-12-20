@@ -34,6 +34,19 @@
   }
 }
 
+@media (max-width: 600px) {
+  .poster img {
+    width: 200px;
+    height: 300px;
+    margin: 10px 20px;
+    box-shadow: 2px 2px #282b28;
+  }
+
+  .poster img:hover {
+    width: 203px;
+  }
+}
+
 @media (max-width: 500px) {
   .poster img {
     width: 200px;
