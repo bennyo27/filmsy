@@ -7,8 +7,7 @@ HTML5, CSS3, JavaScript, React, and Redux
 ## Back-end:
 Node.js, SQLite, Express, and Knex
 
-
-
+--------------------------------------------------------------------------------------------------------------------------
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
