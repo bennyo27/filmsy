@@ -1,8 +1,11 @@
-Filmsy is a movie review site that lets users review movies in a subjective manner.
+## Filmsy
+Movie review site that lets users review movies in a subjective manner.
 
-Front-end: HTML5, CSS3, JavaScript, React, and Redux
+## Front-end:
+HTML5, CSS3, JavaScript, React, and Redux
 
-Back-end: Node.js, SQLite, Express, and Knex
+## Back-end:
+Node.js, SQLite, Express, and Knex
 
 
 
