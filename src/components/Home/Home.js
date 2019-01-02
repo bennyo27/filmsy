@@ -20,6 +20,28 @@ class Home extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.searchMovies(this.state.searchText);
+    let box = document.getElementById("results");
+    box.style.display = "inline-block";
+  };
+
+  componentWillMount() {
+    document.addEventListener("mousedown", this.handleClick, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClick, false);
+  }
+
+  handleClick = e => {
+    if (this.node.contains(e.target)) {
+      return;
+    }
+
+    let box = document.getElementById("results");
+    console.log(e.target, box);
+    if (e.target != box && box.style.display == "inline-block") {
+      box.style.display = "none";
+    }
   };
 
   render() {
@@ -35,13 +57,13 @@ class Home extends Component {
             <button
               type="button"
               value="search"
-              className="close-btn"
+              className="search-btn"
               onClick={this.handleSubmit}
             >
               Search
             </button>
           </form>
-          <div className="results">
+          <div id="results" ref={node => (this.node = node)}>
             {this.props.searchResults.map(result => {
               if (result !== undefined) {
                 return (
