@@ -41,7 +41,6 @@ class App extends Component {
     const data = { username, email, email_verified };
     axios.post("https://filmsy-app.herokuapp.com/users", data).then(() => {
       axios.get(`https://filmsy-app.herokuapp.com/users/${email}`).then(res => {
-        console.log(res.data);
         localStorage.setItem("username", res.data.username);
         localStorage.setItem("email", res.data.email);
         localStorage.setItem("email_verified", res.data.email_verified);
@@ -73,16 +72,18 @@ class App extends Component {
             </li>
             <li>
               {!localStorage.getItem("accessToken") && (
-                <button
+                <div
+                  className="log-button"
                   onClick={() => {
                     lock.show();
                   }}
                 >
                   Login
-                </button>
+                </div>
               )}
               {localStorage.getItem("accessToken") && (
-                <button
+                <div
+                  className="log-button"
                   onClick={() => {
                     localStorage.removeItem("accessToken");
                     localStorage.removeItem("username");
@@ -92,7 +93,7 @@ class App extends Component {
                   }}
                 >
                   Logout
-                </button>
+                </div>
               )}
             </li>
           </ul>

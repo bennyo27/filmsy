@@ -58,3 +58,20 @@
 .navbar li {
   align-self: center;
 }
+
+.log-button {
+  text-decoration: none;
+  background-color: #fcf1d7;
+  color: #db8030;
+  padding: 5px 10px 7px;
+  border-radius: 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.log-button:hover {
+  background-color: #d36135;
+  color: #fcf1d7;
+}

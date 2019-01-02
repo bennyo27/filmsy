@@ -34,10 +34,10 @@
   color: #282b28;
 }
 
-.search .close-btn {
+.search-btn {
   position: absolute;
-  top: 1.5px;
-  right: 3px;
+  top: 0.8px;
+  right: 0.5px;
   cursor: pointer;
   color: #fc913a;
   background: #fff;
@@ -51,6 +51,10 @@
   font-weight: bold;
 }
 
+#search-btn:hover {
+  color: gray;
+}
+
 .featured {
   background-color: #d36135;
 }
@@ -59,10 +63,10 @@
   color: white;
 }
 
-.results {
+#results {
   max-width: 500px;
   width: 100%;
-  display: inline-block;
+  display: none;
   margin-top: 428px;
 }
 
