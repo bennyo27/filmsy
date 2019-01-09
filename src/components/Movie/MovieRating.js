@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Rating from "react-rating";
 import axios from "axios";
+import { connect } from "react-redux";
 
 class MovieRating extends Component {
   state = {
@@ -27,7 +28,7 @@ class MovieRating extends Component {
   };
 
   ratingFetcher = () => {
-    let email = localStorage.getItem("email");
+    let email = this.props.userData.email;
     let movie_id = this.props.movie_id;
 
     axios
@@ -50,7 +51,7 @@ class MovieRating extends Component {
 
   ratingPost = (story, audio, visuals, characters, dialogue) => {
     let user_reviews = { story, audio, visuals, characters, dialogue };
-    let user_email = localStorage.getItem("email");
+    let user_email = this.props.userData.email;
     let movie_id = this.props.movie_id;
     let reviews = { user_email, movie_id, user_reviews };
     axios
@@ -309,4 +310,10 @@ class MovieRating extends Component {
 }
 
 // exports
-export default MovieRating;
+function mapStateToProps(state) {
+  return {
+    userData: state.authReducer.userData
+  };
+}
+
+export default connect(mapStateToProps)(MovieRating);
