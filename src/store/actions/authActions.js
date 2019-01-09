@@ -29,7 +29,7 @@ export const getProfile = () => {
         userData = { lockUsername, lockEmail, lockEmail_verified };
 
         axios
-          .get(`https://filmsy-app.herokuapp.com/${userData.lockEmail}`)
+          .get(`https://filmsy-app.herokuapp.com/users/${userData.lockEmail}`)
           .then(res => {
             let username = res.data.username;
             let email = res.data.email;
