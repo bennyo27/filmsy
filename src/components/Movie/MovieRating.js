@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Rating from "react-rating";
 import axios from "axios";
+import { connect } from "react-redux";
 
 class MovieRating extends Component {
   state = {
@@ -19,19 +20,17 @@ class MovieRating extends Component {
 
   scoreFetcher = () => {
     let movie_id = this.props.movie_id;
-    axios
-      .get(`https://filmsy-app.herokuapp.com/reviews/${movie_id}`)
-      .then(res => {
-        this.setState({ averages: res.data });
-      });
+    axios.get(`http://localhost:3300/reviews/${movie_id}`).then(res => {
+      this.setState({ averages: res.data });
+    });
   };
 
   ratingFetcher = () => {
-    let email = localStorage.getItem("email");
+    let email = this.props.userData.email;
     let movie_id = this.props.movie_id;
 
     axios
-      .get(`https://filmsy-app.herokuapp.com/users/${email}/movie/${movie_id}`)
+      .get(`http://localhost:3300/users/${email}/movie/${movie_id}`)
       .then(res => {
         console.log(res);
         if (res.data.reviews[0]) {
@@ -50,23 +49,21 @@ class MovieRating extends Component {
 
   ratingPost = (story, audio, visuals, characters, dialogue) => {
     let user_reviews = { story, audio, visuals, characters, dialogue };
-    let user_email = localStorage.getItem("email");
+    let user_email = this.props.userData.email;
     let movie_id = this.props.movie_id;
     let reviews = { user_email, movie_id, user_reviews };
     axios
-      .get(
-        `https://filmsy-app.herokuapp.com/users/${user_email}/movie/${movie_id}`
-      )
+      .get(`http://localhost:3300/users/${user_email}/movie/${movie_id}`)
       .then(res => {
         if (res.data.reviews[0]) {
           // update
           axios.put(
-            `https://filmsy-app.herokuapp.com/users/${user_email}/movie/${movie_id}`,
+            `http://localhost:3300/users/${user_email}/movie/${movie_id}`,
             user_reviews
           );
         } else {
           // post
-          axios.post(`https://filmsy-app.herokuapp.com/reviews`, reviews);
+          axios.post(`http://localhost:3300/reviews`, reviews);
         }
       });
   };
@@ -309,4 +306,10 @@ class MovieRating extends Component {
 }
 
 // exports
-export default MovieRating;
+function mapStateToProps(state) {
+  return {
+    userData: state.authReducer.userData
+  };
+}
+
+export default connect(mapStateToProps)(MovieRating);

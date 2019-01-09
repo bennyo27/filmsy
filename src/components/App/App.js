@@ -5,55 +5,13 @@ import Movie from "../Movie/Movie.js";
 import { withRouter } from "react-router";
 import "./App.css";
 import { connect } from "react-redux";
-import Auth0Lock from "auth0-lock";
 import axios from "axios";
-
-var lock = new Auth0Lock(
-  "lElY8YB0H8bbaVlBUExJteiEmVxweAha",
-  "dashboard-app.auth0.com"
-);
-
-lock.on("authenticated", function(authResult) {
-  // Use the token in authResult to getUserInfo() and save it to localStorage
-  console.log(authResult);
-  lock.getUserInfo(authResult.accessToken, function(error, profile) {
-    if (error) {
-      // Handle error
-      return;
-    }
-
-    console.log(profile);
-    localStorage.setItem("accessToken", authResult.accessToken);
-    localStorage.setItem("username", profile.nickname);
-    localStorage.setItem("email", profile.email);
-    localStorage.setItem("email_verified", profile.email_verified);
-    window.location.reload();
-  });
-});
+import lock from "../../store/actions/authActions";
+import { getProfile, logout } from "../../store/actions/authActions";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.send_profile_to_db = this.send_profile_to_db.bind(this);
-  }
-
-  send_profile_to_db(username, email, email_verified) {
-    const data = { username, email, email_verified };
-    axios.post("https://filmsy-app.herokuapp.com/users", data).then(() => {
-      axios.get(`https://filmsy-app.herokuapp.com/users/${email}`).then(res => {
-        localStorage.setItem("username", res.data.username);
-        localStorage.setItem("email", res.data.email);
-        localStorage.setItem("email_verified", res.data.email_verified);
-      });
-    });
-  }
-
   componentDidMount() {
-    this.send_profile_to_db(
-      localStorage.getItem("username"),
-      localStorage.getItem("email"),
-      localStorage.getItem("email_verified")
-    );
+    this.props.getProfile();
   }
 
   render() {
@@ -71,7 +29,7 @@ class App extends Component {
               </NavLink>
             </li>
             <li>
-              {!localStorage.getItem("accessToken") && (
+              {!this.props.userData.email && (
                 <div
                   className="log-button"
                   onClick={() => {
@@ -81,14 +39,11 @@ class App extends Component {
                   Login
                 </div>
               )}
-              {localStorage.getItem("accessToken") && (
+              {this.props.userData.email && (
                 <div
                   className="log-button"
                   onClick={() => {
-                    localStorage.removeItem("accessToken");
-                    localStorage.removeItem("username");
-                    localStorage.removeItem("email");
-                    localStorage.removeItem("email_verified");
+                    this.props.logout();
                     this.props.history.push("/");
                   }}
                 >
@@ -111,8 +66,13 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: state.authReducer.isAuthenticated
+    userData: state.authReducer.userData
   };
 }
 
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getProfile, logout }
+  )(App)
+);

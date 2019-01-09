@@ -1,50 +1,44 @@
 // Handles Authentication state
 import {
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  GET_PROFILE,
-  REMOVE_PROFILE,
-  SET_DB_PROFILE,
-  REMOVE_DB_PROFILE
+  USER_LOGIN_START,
+  USER_LOGIN_COMPLETE,
+  USER_LOGOUT_START,
+  USER_LOGOUT_COMPLETE
 } from "../actions/authActions";
 
 const initialState = {
-  isAuthenticated: false,
-  UserProfile: {},
-  DBUserProfile: null
+  userLoggingIn: false,
+  userLoggedIn: false,
+  userLoggingOut: false,
+  userLoggedOut: true,
+  userData: {}
 };
 
 const Auth_Reducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
+    case USER_LOGIN_START:
       return {
         ...state,
-        isAuthenticated: true
+        userLoggingIn: true
       };
-    case LOGIN_FAILURE:
+    case USER_LOGIN_COMPLETE:
       return {
         ...state,
-        isAuthenticated: false
+        userLoggingIn: false,
+        userLoggedIn: true,
+        userData: action.payload
       };
-    case GET_PROFILE:
+    case USER_LOGOUT_START:
       return {
         ...state,
-        UserProfile: action.payload
+        userLoggingIn: true
       };
-    case REMOVE_PROFILE:
+    case USER_LOGOUT_COMPLETE:
       return {
         ...state,
-        UserProfile: null
-      };
-    case SET_DB_PROFILE:
-      return {
-        ...state,
-        DBUserProfile: action.payload
-      };
-    case REMOVE_DB_PROFILE:
-      return {
-        ...state,
-        DBUserProfile: null
+        userLoggingOut: false,
+        userLoggedOut: true,
+        userData: action.payload
       };
     default:
       return state;

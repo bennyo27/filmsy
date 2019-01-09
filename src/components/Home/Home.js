@@ -38,7 +38,6 @@ class Home extends Component {
     }
 
     let box = document.getElementById("results");
-    console.log(e.target, box);
     if (e.target != box && box.style.display == "inline-block") {
       box.style.display = "none";
     }
