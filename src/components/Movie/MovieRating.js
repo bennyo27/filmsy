@@ -20,9 +20,11 @@ class MovieRating extends Component {
 
   scoreFetcher = () => {
     let movie_id = this.props.movie_id;
-    axios.get(`http://localhost:3300/reviews/${movie_id}`).then(res => {
-      this.setState({ averages: res.data });
-    });
+    axios
+      .get(`https://filmsy-app.herokuapp.com/reviews/${movie_id}`)
+      .then(res => {
+        this.setState({ averages: res.data });
+      });
   };
 
   ratingFetcher = () => {
@@ -30,7 +32,7 @@ class MovieRating extends Component {
     let movie_id = this.props.movie_id;
 
     axios
-      .get(`http://localhost:3300/users/${email}/movie/${movie_id}`)
+      .get(`https://filmsy-app.herokuapp.com/users/${email}/movie/${movie_id}`)
       .then(res => {
         console.log(res);
         if (res.data.reviews[0]) {
@@ -53,17 +55,19 @@ class MovieRating extends Component {
     let movie_id = this.props.movie_id;
     let reviews = { user_email, movie_id, user_reviews };
     axios
-      .get(`http://localhost:3300/users/${user_email}/movie/${movie_id}`)
+      .get(
+        `https://filmsy-app.herokuapp.com/users/${user_email}/movie/${movie_id}`
+      )
       .then(res => {
         if (res.data.reviews[0]) {
           // update
           axios.put(
-            `http://localhost:3300/users/${user_email}/movie/${movie_id}`,
+            `https://filmsy-app.herokuapp.com/users/${user_email}/movie/${movie_id}`,
             user_reviews
           );
         } else {
           // post
-          axios.post(`http://localhost:3300/reviews`, reviews);
+          axios.post(`https://filmsy-app.herokuapp.com/reviews`, reviews);
         }
       });
   };

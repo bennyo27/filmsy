@@ -29,7 +29,7 @@ export const getProfile = () => {
         userData = { lockUsername, lockEmail, lockEmail_verified };
 
         axios
-          .get(`http://localhost:3300/users/${userData.lockEmail}`)
+          .get(`https://filmsy-app.herokuapp.com/${userData.lockEmail}`)
           .then(res => {
             let username = res.data.username;
             let email = res.data.email;
@@ -40,17 +40,21 @@ export const getProfile = () => {
           .catch(err => {
             //posts user if user does not exist
             if (err) {
-              axios.post("http://localhost:3300/users", userData).then(() => {
-                axios
-                  .get(`http://localhost:3300/users/${userData.lockEmail}`)
-                  .then(res => {
-                    let username = res.data.username;
-                    let email = res.data.email;
-                    let email_verified = res.data.email_verified;
-                    let data = { username, email, email_verified };
-                    dispatch({ type: USER_LOGIN_COMPLETE, payload: data });
-                  });
-              });
+              axios
+                .post("https://filmsy-app.herokuapp.com/users", userData)
+                .then(() => {
+                  axios
+                    .get(
+                      `https://filmsy-app.herokuapp.com/${userData.lockEmail}`
+                    )
+                    .then(res => {
+                      let username = res.data.username;
+                      let email = res.data.email;
+                      let email_verified = res.data.email_verified;
+                      let data = { username, email, email_verified };
+                      dispatch({ type: USER_LOGIN_COMPLETE, payload: data });
+                    });
+                });
             }
           });
       });
