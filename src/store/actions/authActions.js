@@ -45,7 +45,9 @@ export const getProfile = () => {
                 .then(() => {
                   axios
                     .get(
-                      `https://filmsy-app.herokuapp.com/${userData.lockEmail}`
+                      `https://filmsy-app.herokuapp.com/users/${
+                        userData.lockEmail
+                      }`
                     )
                     .then(res => {
                       let username = res.data.username;
