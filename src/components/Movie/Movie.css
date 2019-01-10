@@ -109,6 +109,65 @@
   margin: 10px;
 }
 
+@media (max-width: 800px) {
+  .movie-page {
+    max-width: 580px;
+  }
+
+  .movie-bio {
+    font-size: 1.4em;
+  }
+
+  .movie-score {
+    margin: 0 auto;
+    max-width: 650px;
+  }
+
+  .rating-container {
+    font-size: 0.9em;
+  }
+
+  .average {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 600px) {
+  .movie-poster img {
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+
+  .movie-page {
+    flex-direction: column;
+  }
+
+  .movie-head {
+    margin: 0 10px;
+  }
+
+  .movie-title {
+    margin-top: 20px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+
+  .movie-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    margin: 0 10px;
+  }
+}
+
 /* Media */
 @media (max-width: 500px) {
   .movie-page {
@@ -127,10 +186,13 @@
   }
 
   .movie-title {
-    width: 100%;
     border-bottom-left-radius: 0;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
+  }
+
+  .movie-head {
+    margin: 0 10px;
   }
 
   .movie-body {
@@ -142,6 +204,11 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
+    margin: 0 10px;
+  }
+
+  .movie-bio {
+    font-size: 1.5em;
   }
 
   .main-score {
@@ -150,22 +217,62 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
     max-width: 1000px;
+    width: 390px;
+    margin-top: 30px;
   }
 
   .user-ratings {
+    margin: 0 auto;
     background-color: #fff;
     border-radius: 20px;
     width: 100%;
     margin-bottom: 20px;
+    max-width: 340px;
+  }
+
+  .rating-container {
+    font-size: 0.85em;
   }
 
   .average {
-    display: flex;
-    flex-direction: column;
+    margin: 0 auto;
     background-color: #fff;
     border-radius: 20px;
     width: 100%;
+    max-width: 340px;
+    font-size: 0.85em;
+  }
+}
+
+@media (max-width: 400px) {
+  .movie-bio {
+    font-size: 1.2em;
+  }
+
+  .main-score {
+    width: 390px;
+    margin-top: 30px;
+  }
+
+  .movie-head {
+    margin: 0 10px;
+  }
+
+  .movie-body {
+    margin: 0 10px;
+  }
+
+  .user-ratings {
+    max-width: 340px;
+  }
+
+  .average {
+    max-width: 340px;
+    font-size: 0.8em;
+  }
+
+  .rating-container {
+    font-size: 0.8em;
   }
 }

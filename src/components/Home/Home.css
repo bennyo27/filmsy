@@ -96,3 +96,31 @@
 .result-title a {
   text-decoration: none;
 }
+
+@media (max-width: 500px) {
+  .search input {
+    width: 350px;
+  }
+  .search-btn {
+    width: 110px;
+  }
+}
+
+@media (max-width: 400px) {
+  .search input {
+    width: 300px;
+  }
+  .search-btn {
+    width: 100px;
+  }
+  .result-display {
+    height: auto;
+    padding: 0;
+    padding-top: 10px;
+    transition: 0.2s;
+  }
+  .result-title {
+    color: black;
+    font-size: 0.7em;
+  }
+}

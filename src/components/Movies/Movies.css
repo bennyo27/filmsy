@@ -16,8 +16,8 @@
 }
 
 .poster img:hover {
-  box-shadow: 10px 10px #282b28;
-  width: 305px;
+  box-shadow: 8px 8px #282b28;
+  width: 301px;
 }
 
 /* Media */
@@ -49,13 +49,28 @@
 
 @media (max-width: 500px) {
   .poster img {
-    width: 200px;
+    width: 190px;
     height: 300px;
-    margin: 0;
+    margin: 5px;
     box-shadow: none;
   }
 
   .poster img:hover {
-    width: 203px;
+    width: 190px;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .poster img {
+    width: 185px;
+    height: 300px;
+    margin: 2px;
+    box-shadow: none;
+  }
+
+  .poster img:hover {
+    width: 190px;
+    box-shadow: none;
   }
 }
