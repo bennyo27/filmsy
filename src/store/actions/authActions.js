@@ -39,7 +39,7 @@ export const getProfile = () => {
           })
           .catch(err => {
             //posts user if user does not exist
-            if (err) {
+            if (err.response == 500) {
               axios
                 .post("https://filmsy-app.herokuapp.com/users", userData)
                 .then(() => {
