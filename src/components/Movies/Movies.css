@@ -16,8 +16,8 @@
 }
 
 .poster img:hover {
-  box-shadow: 8px 8px #282b28;
-  width: 301px;
+  box-shadow: 6px 8px #282b28;
+  width: 303px;
 }
 
 /* Media */
@@ -30,7 +30,8 @@
   }
 
   .poster img:hover {
-    width: 203px;
+    width: 200px;
+    box-shadow: 5px 5px #282b28;
   }
 }
 
@@ -39,11 +40,12 @@
     width: 200px;
     height: 300px;
     margin: 10px 20px;
-    box-shadow: 2px 2px #282b28;
+    box-shadow: none;
   }
 
   .poster img:hover {
-    width: 203px;
+    width: 200px;
+    box-shadow: 5px 5px #282b28;
   }
 }
 
@@ -57,7 +59,7 @@
 
   .poster img:hover {
     width: 190px;
-    box-shadow: none;
+    box-shadow: 5px 5px #282b28;
   }
 }
 
@@ -70,7 +72,7 @@
   }
 
   .poster img:hover {
-    width: 190px;
-    box-shadow: none;
+    width: 185px;
+    box-shadow: 3px 3px #282b28;
   }
 }
