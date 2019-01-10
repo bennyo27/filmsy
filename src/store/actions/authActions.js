@@ -29,36 +29,31 @@ export const getProfile = () => {
         userData = { lockUsername, lockEmail, lockEmail_verified };
 
         axios
-          .get(
-            `https://filmsy-backend.herokuapp.com/users/${userData.lockEmail}`
-          )
+          .get(`http://localhost:3300/users/${userData.lockEmail}`)
           .then(res => {
+            console.log(res);
             let username = res.data.username;
             let email = res.data.email;
             let email_verified = res.data.email_verified;
             let data = { username, email, email_verified };
+            console.log("worked1", data);
             dispatch({ type: USER_LOGIN_COMPLETE, payload: data });
           })
           .catch(err => {
             //posts user if user does not exist
-            if (err.response == 500) {
-              axios
-                .post("https://filmsy-backend.herokuapp.com/users", userData)
-                .then(() => {
-                  axios
-                    .get(
-                      `https://filmsy-backend.herokuapp.com/users/${
-                        userData.lockEmail
-                      }`
-                    )
-                    .then(res => {
-                      let username = res.data.username;
-                      let email = res.data.email;
-                      let email_verified = res.data.email_verified;
-                      let data = { username, email, email_verified };
-                      dispatch({ type: USER_LOGIN_COMPLETE, payload: data });
-                    });
-                });
+            if (err.response.status == 404) {
+              axios.post("http://localhost:3300/users", userData).then(() => {
+                axios
+                  .get(`http://localhost:3300/users/${userData.lockEmail}`)
+                  .then(res => {
+                    let username = res.data.username;
+                    let email = res.data.email;
+                    let email_verified = res.data.email_verified;
+                    let data = { username, email, email_verified };
+                    console.log("worked2", data);
+                    dispatch({ type: USER_LOGIN_COMPLETE, payload: data });
+                  });
+              });
             }
           });
       });

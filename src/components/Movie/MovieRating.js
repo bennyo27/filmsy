@@ -20,56 +20,56 @@ class MovieRating extends Component {
 
   scoreFetcher = () => {
     let movie_id = this.props.movie_id;
-    axios
-      .get(`https://filmsy-backend.herokuapp.com/reviews/${movie_id}`)
-      .then(res => {
-        this.setState({ averages: res.data });
-      });
+    axios.get(`http://localhost:3300/reviews/${movie_id}`).then(res => {
+      this.setState({ averages: res.data });
+    });
   };
 
   ratingFetcher = () => {
     let email = this.props.userData.email;
     let movie_id = this.props.movie_id;
-
     axios
-      .get(
-        `https://filmsy-backend.herokuapp.com/users/${email}/movie/${movie_id}`
-      )
+      .get(`http://localhost:3300/users/${email}/movie/${movie_id}`)
       .then(res => {
-        console.log(res);
-        if (res.data.reviews[0]) {
-          console.log(res.data.reviews[0].user_reviews);
-          let newState = JSON.parse(res.data.reviews[0].user_reviews);
+        if (res.data.length != 0) {
           this.setState({
-            story: newState.story,
-            audio: newState.audio,
-            visuals: newState.visuals,
-            characters: newState.characters,
-            dialogue: newState.dialogue
+            story: res.data.story,
+            audio: res.data.audio,
+            visuals: res.data.visuals,
+            characters: res.data.characters,
+            dialogue: res.data.dialogue
           });
+        } else {
+          return null;
         }
       });
   };
 
   ratingPost = (story, audio, visuals, characters, dialogue) => {
-    let user_reviews = { story, audio, visuals, characters, dialogue };
     let user_email = this.props.userData.email;
     let movie_id = this.props.movie_id;
-    let reviews = { user_email, movie_id, user_reviews };
+    let reviews = {
+      user_email,
+      movie_id,
+      story,
+      audio,
+      visuals,
+      characters,
+      dialogue
+    };
+    let user_reviews = { story, audio, visuals, characters, dialogue };
     axios
-      .get(
-        `https://filmsy-backend.herokuapp.com/users/${user_email}/movie/${movie_id}`
-      )
+      .get(`http://localhost:3300/users/${user_email}/movie/${movie_id}`)
       .then(res => {
-        if (res.data.reviews[0]) {
+        if (res.data.length != 0) {
           // update
           axios.put(
-            `https://filmsy-backend.herokuapp.com/users/${user_email}/movie/${movie_id}`,
+            `http://localhost:3300/users/${user_email}/movie/${movie_id}`,
             user_reviews
           );
         } else {
           // post
-          axios.post(`https://filmsy-backend.herokuapp.com/reviews`, reviews);
+          axios.post(`http://localhost:3300/reviews`, reviews);
         }
       });
   };
