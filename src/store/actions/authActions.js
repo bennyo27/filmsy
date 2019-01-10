@@ -29,7 +29,9 @@ export const getProfile = () => {
         userData = { lockUsername, lockEmail, lockEmail_verified };
 
         axios
-          .get(`https://filmsy-app.herokuapp.com/users/${userData.lockEmail}`)
+          .get(
+            `https://filmsy-backend.herokuapp.com/users/${userData.lockEmail}`
+          )
           .then(res => {
             let username = res.data.username;
             let email = res.data.email;
@@ -41,11 +43,11 @@ export const getProfile = () => {
             //posts user if user does not exist
             if (err) {
               axios
-                .post("https://filmsy-app.herokuapp.com/users", userData)
+                .post("https://filmsy-backend.herokuapp.com/users", userData)
                 .then(() => {
                   axios
                     .get(
-                      `https://filmsy-app.herokuapp.com/users/${
+                      `https://filmsy-backend.herokuapp.com/users/${
                         userData.lockEmail
                       }`
                     )
