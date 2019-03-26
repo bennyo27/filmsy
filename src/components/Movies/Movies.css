@@ -31,11 +31,6 @@
     margin: 0;
     box-shadow: none;
   }
-
-  .poster img:hover {
-    width: 200px;
-    box-shadow: 5px 5px #282b28;
-  }
 }
 
 @media (max-width: 600px) {
@@ -44,11 +39,6 @@
     height: 300px;
     margin: 10px 20px;
     box-shadow: none;
-  }
-
-  .poster img:hover {
-    width: 200px;
-    box-shadow: 5px 5px #282b28;
   }
 }
 
@@ -59,11 +49,6 @@
     margin: 5px;
     box-shadow: none;
   }
-
-  .poster img:hover {
-    width: 190px;
-    box-shadow: 5px 5px #282b28;
-  }
 }
 
 @media (max-width: 400px) {
@@ -73,9 +58,17 @@
     margin: 2px;
     box-shadow: none;
   }
+}
 
-  .poster img:hover {
-    width: 185px;
-    box-shadow: 3px 3px #282b28;
+@media (max-width: 380px) {
+  .movieDisplay {
+    justify-content: center;
+  }
+
+  .poster img {
+    width: 200px;
+    height: 300px;
+    margin: 2px;
+    box-shadow: none;
   }
 }
